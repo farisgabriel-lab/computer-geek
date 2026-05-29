@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit a Repair - Computer Geek 911</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="forms.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <a href="index.html" class="logo">Computer Geek 911</a>
+                <ul class="nav-links">
+                    <li><a href="index.html#services">Services</a></li>
+                    <li><a href="index.html#how-it-works">How It Works</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                    <li><a href="submit-repair.html" class="btn btn-small">Submit Repair</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Submit a Repair Request</h1>
+            <p>Tell us about your device and what needs repair. We'll get back to you shortly with a quote and timeline.</p>
+        </div>
+    </section>
+
+    <!-- Form Section -->
+    <section class="form-section">
+        <div class="container">
+            <div class="form-wrapper">
+                <form id="repairForm" class="repair-form">
+                    <!-- Customer Information -->
+                    <fieldset class="form-section-group">
+                        <legend>Customer Information</legend>
+                        
+                        <div class="form-group">
+                            <label for="fullName">Full Name *</label>
+                            <input type="text" id="fullName" name="fullName" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                    </fieldset>
+
+                    <!-- Device Information -->
+                    <fieldset class="form-section-group">
+                        <legend>Device Information</legend>
+                        
+                        <div class="form-group">
+                            <label for="deviceType">Device Type *</label>
+                            <select id="deviceType" name="deviceType" required>
+                                <option value="">-- Select Device Type --</option>
+                                <option value="smartphone">Smartphone</option>
+                                <option value="laptop">Laptop</option>
+                                <option value="desktop">Desktop Computer</option>
+                                <option value="tablet">Tablet</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="brand">Brand/Model *</label>
+                            <input type="text" id="brand" name="brand" placeholder="e.g., iPhone 14, Dell XPS 13" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="issue">Description of Issue *</label>
+                            <textarea id="issue" name="issue" rows="5" placeholder="Please describe what's wrong with your device..." required></textarea>
+                        </div>
+                    </fieldset>
+
+                    <!-- Service Type -->
+                    <fieldset class="form-section-group">
+                        <legend>Type of Service Needed</legend>
+                        
+                        <div class="form-group checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="serviceType" value="hardware">
+                                <span>Hardware Repair (screen, battery, parts, etc.)</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="serviceType" value="software">
+                                <span>Software Troubleshooting (virus, slowness, OS issues)</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="serviceType" value="data-recovery">
+                                <span>Data Recovery (lost/deleted files)</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="serviceType" value="diagnostic">
+                                <span>Just Diagnostic ($50 - included in final repair cost)</span>
+                            </label>
+                        </div>
+                    </fieldset>
+
+                    <!-- Additional Notes -->
+                    <fieldset class="form-section-group">
+                        <legend>Additional Notes</legend>
+                        
+                        <div class="form-group">
+                            <label for="notes">Any other information?</label>
+                            <textarea id="notes" name="notes" rows="3" placeholder="Optional: Any other details we should know?"></textarea>
+                        </div>
+                    </fieldset>
+
+                    <!-- Submit Button -->
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Submit Repair Request</button>
+                        <p class="form-note">We'll review your request and contact you shortly with a quote and timeline.</p>
+                    </div>
+                </form>
+
+                <!-- Success Message -->
+                <div id="successMessage" class="success-message" style="display: none;">
+                    <h3>Request Submitted Successfully!</h3>
+                    <p>Thank you for choosing Computer Geek 911. We've received your repair request and will contact you shortly at the phone number or email you provided.</p>
+                    <p><strong>What's Next?</strong></p>
+                    <ul>
+                        <li>We'll review your device details</li>
+                        <li>You'll receive a call or email with a quote and timeline</li>
+                        <li>Once approved, bring your device to our shop or arrange pickup</li>
+                        <li>You'll receive regular updates on your repair status</li>
+                    </ul>
+                    <a href="index.html" class="btn btn-primary">Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Computer Geek 911. All rights reserved. | Expert Tech Repair in San Diego</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        const form = document.getElementById('repairForm');
+        const successMessage = document.getElementById('successMessage');
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            // Collect form data
+            const formData = {
+                fullName: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                deviceType: document.getElementById('deviceType').value,
+                brand: document.getElementById('brand').value,
+                issue: document.getElementById('issue').value,
+                serviceType: Array.from(document.querySelectorAll('input[name="serviceType"]:checked')).map(cb => cb.value),
+                notes: document.getElementById('notes').value,
+                submittedAt: new Date().toISOString()
+            };
+
+            // Send to backend (we'll implement this with Firebase next)
+            console.log('Form Data:', formData);
+
+            // For now, show success message
+            form.style.display = 'none';
+            successMessage.style.display = 'block';
+        });
+    </script>
+</body>
+</html>

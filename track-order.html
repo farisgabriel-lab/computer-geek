@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Your Order - Computer Geek 911</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="forms.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <a href="index.html" class="logo">Computer Geek 911</a>
+                <ul class="nav-links">
+                    <li><a href="index.html#services">Services</a></li>
+                    <li><a href="index.html#how-it-works">How It Works</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                    <li><a href="submit-repair.html" class="btn btn-small">Submit Repair</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Track Your Repair Order</h1>
+            <p>Enter your order ID to check the status of your repair.</p>
+        </div>
+    </section>
+
+    <!-- Track Section -->
+    <section class="form-section">
+        <div class="container">
+            <div class="form-wrapper">
+                <form id="trackForm" class="track-form">
+                    <div class="form-group">
+                        <label for="orderId">Order ID *</label>
+                        <input type="text" id="orderId" name="orderId" placeholder="e.g., CG-20260529-001" required>
+                        <small>You received your Order ID via email when you submitted your repair request.</small>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Track Order</button>
+                </form>
+
+                <!-- Order Status Display -->
+                <div id="orderStatus" class="order-status" style="display: none;">
+                    <div class="status-header">
+                        <h2>Order <span id="statusOrderId"></span></h2>
+                        <p id="statusDate"></p>
+                    </div>
+
+                    <div class="status-timeline">
+                        <div class="timeline-item active" id="timeline-received">
+                            <div class="timeline-marker">✓</div>
+                            <div class="timeline-content">
+                                <h3>Received</h3>
+                                <p id="timeline-received-date"></p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item" id="timeline-diagnosing">
+                            <div class="timeline-marker">•</div>
+                            <div class="timeline-content">
+                                <h3>Diagnosing</h3>
+                                <p id="timeline-diagnosing-date"></p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item" id="timeline-repairing">
+                            <div class="timeline-marker">•</div>
+                            <div class="timeline-content">
+                                <h3>In Repair</h3>
+                                <p id="timeline-repairing-date"></p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item" id="timeline-ready">
+                            <div class="timeline-marker">•</div>
+                            <div class="timeline-content">
+                                <h3>Ready for Pickup</h3>
+                                <p id="timeline-ready-date"></p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item" id="timeline-completed">
+                            <div class="timeline-marker">•</div>
+                            <div class="timeline-content">
+                                <h3>Completed</h3>
+                                <p id="timeline-completed-date"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="status-details">
+                        <h3>Repair Details</h3>
+                        <div class="detail-item">
+                            <span class="detail-label">Device:</span>
+                            <span class="detail-value" id="statusDevice"></span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Issue:</span>
+                            <span class="detail-value" id="statusIssue"></span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Current Status:</span>
+                            <span class="detail-value" id="statusCurrent"></span>
+                        </div>
+                        <div class="detail-item" id="notesSection" style="display: none;">
+                            <span class="detail-label">Notes:</span>
+                            <span class="detail-value" id="statusNotes"></span>
+                        </div>
+                    </div>
+
+                    <div class="status-actions">
+                        <button type="button" class="btn btn-secondary" onclick="resetTrack()">Search Another Order</button>
+                        <button type="button" class="btn btn-secondary" onclick="window.location.href='index.html#contact'">Contact Us</button>
+                    </div>
+                </div>
+
+                <!-- Error Message -->
+                <div id="errorMessage" class="error-message" style="display: none;">
+                    <p>Order not found. Please check your Order ID and try again.</p>
+                    <button type="button" class="btn btn-secondary" onclick="resetTrack()">Try Again</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Computer Geek 911. All rights reserved. | Expert Tech Repair in San Diego</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Mock data for demonstration
+        const mockOrders = {
+            'CG-20260529-001': {
+                customer: 'John Doe',
+                device: 'iPhone 14 Pro',
+                issue: 'Cracked screen',
+                status: 'ready', // received, diagnosing, repairing, ready, completed
+                submittedDate: '2026-05-28',
+                diagnosedDate: '2026-05-28',
+                repairStartDate: '2026-05-29',
+                readyDate: '2026-05-29',
+                notes: 'Screen replacement completed. Device is ready for pickup.'
+            }
+        };
+
+        document.getElementById('trackForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const orderId = document.getElementById('orderId').value.toUpperCase();
+            const order = mockOrders[orderId];
+
+            const trackForm = document.querySelector('.track-form');
+            const orderStatus = document.getElementById('orderStatus');
+            const errorMessage = document.getElementById('errorMessage');
+
+            if (order) {
+                trackForm.style.display = 'none';
+                errorMessage.style.display = 'none';
+                orderStatus.style.display = 'block';
+
+                // Update order status display
+                document.getElementById('statusOrderId').textContent = orderId;
+                document.getElementById('statusDate').textContent = `Submitted: ${order.submittedDate}`;
+                document.getElementById('statusDevice').textContent = order.device;
+                document.getElementById('statusIssue').textContent = order.issue;
+
+                // Update timeline
+                updateTimeline(order.status);
+                document.getElementById('statusCurrent').textContent = order.status.charAt(0).toUpperCase() + order.status.slice(1);
+
+                if (order.notes) {
+                    document.getElementById('notesSection').style.display = 'flex';
+                    document.getElementById('statusNotes').textContent = order.notes;
+                }
+            } else {
+                trackForm.style.display = 'block';
+                orderStatus.style.display = 'none';
+                errorMessage.style.display = 'block';
+            }
+        });
+
+        function updateTimeline(status) {
+            const statuses = ['received', 'diagnosing', 'repairing', 'ready', 'completed'];
+            statuses.forEach(s => {
+                const item = document.getElementById(`timeline-${s}`);
+                if (statuses.indexOf(s) <= statuses.indexOf(status)) {
+                    item.classList.add('active');
+                }
+            });
+        }
+
+        function resetTrack() {
+            document.getElementById('trackForm').reset();
+            document.getElementById('trackForm').style.display = 'block';
+            document.getElementById('orderStatus').style.display = 'none';
+            document.getElementById('errorMessage').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
